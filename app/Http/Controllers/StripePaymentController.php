@@ -14,24 +14,36 @@ use Stripe\Transfer;
 class StripePaymentController extends Controller
 {
 
-     public function __construct()
+    public function __construct()
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 
     public function testStripeConnection()
-{
-    Stripe::setApiKey(env('STRIPE_SECRET'));
+    {
+        $stripe = new \Stripe\StripeClient("sk_test_51RQ2xkE7tBgJSK9kh3ZoJVuA3bRrAEotzzYLP0bYGwNJv4PmoWeFoBaJM8wjv8g5qo7BJ2yBRx39ihuBofcpzfPY007bT00AeB");
 
-    try {
-        $balance = \Stripe\Balance::retrieve();
-        return response()->json($balance); // يعرض رصيد حساب Stripe في وضع test
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage(),
-        ], 500);
+        try {
+            $checkoutSession = $stripe->checkout->sessions->create([
+                'payment_method_types' => ['card'],
+                'line_items' =>  [
+                    [
+                        'price' => 'price_1MotwRLkdIwHu7ixYcPLm5uZ',
+                        'quantity' => 2,
+                    ],
+                ],
+                'mode' => 'payment',
+                'success_url' => route('deposit'),
+                'cancel_url' => route('deposit'),
+            ]);
+            return $checkoutSession;
+            // يعرض رصيد حساب Stripe في وضع test
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-}
     // 1. إيداع مبلغ إلى المحفظة عبر بطاقة (charge)
     public function deposit(Request $request)
     {
@@ -88,5 +100,4 @@ class StripePaymentController extends Controller
             'balance' => $user->wallet,
         ]);
     }
-   
-} 
+}

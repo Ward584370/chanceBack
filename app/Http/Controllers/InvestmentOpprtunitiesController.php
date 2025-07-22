@@ -17,6 +17,13 @@ class InvestmentOpprtunitiesController extends Controller
 {
     
 
+    public function opprtuntybyid($id){
+         $opprtunty = investment_opprtunities::findOrFail($id);
+      
+        return response()->json([
+            $opprtunty
+        ]);
+    }
     public function storeoppertunitiy(Request $request, $factory_id)
 {
     $request->validate([

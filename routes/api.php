@@ -51,6 +51,7 @@ Route::controller(InvestmentOpprtunitiesController::class)->group(function(){
     Route::get('/InvestmentOpprtunities/getFactoryOpportunities/{id}','getFactoryOpportunities');
     Route::get('/InvestmentOpprtunities/getOpportunitiesByCategory/{id}','getOpportunitiesByCategory');
     Route::post('/InvestmentOpprtunities/confirmPurchase','confirmPurchase')->middleware('auth:sanctum');
+    Route::get('/InvestmentOpprtunities/opprtuntybyid/{id}','opprtuntybyid');
 });
 
 Route::controller(InvestmentsController::class)->group(function(){
@@ -89,7 +90,7 @@ Route::controller(ReturnsController::class)->group(function(){
 });
 
 Route::controller(StripePaymentController::class)->group(function(){
-    Route::post('/Stripe/deposit','deposit')->middleware('auth:sanctum');
+    Route::post('/Stripe/deposit','deposit')->name('deposit')->middleware('auth:sanctum');
     Route::post('/Stripe/withdraw','withdraw')->middleware('auth:sanctum');
 
 });
