@@ -16,12 +16,10 @@ class StripePaymentController extends Controller
 
     public function __construct()
     {
-       // Stripe::setApiKey(apiKey: env(key: 'STRIPE_SECRET'));
     }
 
     public function testStripeConnection()
     {
-        //Stripe::setApiKey(apiKey: env(key: 'STRIPE_SECRET'));
 
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
