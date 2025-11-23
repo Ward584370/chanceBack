@@ -31,4 +31,15 @@ class OpprtunityImagesController extends Controller
         'image_path' => $path,
     ]);
 }
+  public function getFactoryImages($factoryId)
+    {
+        $factory = factories::findOrFail($factoryId);
+
+        $images = opprtunity_images::where('factory_id', $factory->id)->get();
+
+        return response()->json([
+            'factory_id' => $factory->id,
+            'images' => $images,
+        ]);
+    }
 }

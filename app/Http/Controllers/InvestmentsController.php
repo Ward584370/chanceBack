@@ -68,6 +68,7 @@ public function filterByUser()
             : 0;
 
         return [
+            'id' => $investment->id,
             'amount' => $investment->amount,
             'percentage' => $percentage, // ✅ تمت إضافتها
             'opportunity' => [

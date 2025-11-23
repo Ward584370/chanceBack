@@ -30,7 +30,7 @@ class InvestmentOffersController extends Controller
                 $query->select('id', 'target_amount', 'collected_amount', 'minimum_target', 'strtup', 'payout_frequency','profit_percentage', 'descrption'); // اختر الأعمدة التي تحتاجها
             }
         ])
-        ->select('investment_id','offred_amount', 'price') 
+        ->select('id','investment_id','offred_amount', 'price') 
         ->get();
 
     return response()->json($offers);

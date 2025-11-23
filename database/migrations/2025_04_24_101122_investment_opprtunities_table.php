@@ -13,18 +13,16 @@ return new class extends Migration
     {
         Schema::create('investment_opprtunities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->decimal('target_amount');
-            $table->decimal('collected_amount');
-            $table->foreignId('factory_id');
-            $table->decimal('minimum_target')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->decimal('target_amount', 15, 2);
+            $table->decimal('collected_amount', 15, 2);
+            $table->foreignId('factory_id')->constrained()->cascadeOnDelete();
+            $table->decimal('minimum_target', 15, 2)->nullable();
             $table->date('strtup')->nullable();
-            $table->string('payout_frequency');
-            $table->decimal('profit_percentage');
+            $table->integer('payout_frequency')->default(1); // عدد الشهور
+            $table->decimal('profit_percentage', 5, 2);
             $table->string('descrption')->nullable();
             $table->timestamps();
-
-            
         });
     }
 
@@ -34,13 +32,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('investment_opprtunities');
-        Schema::table('investment_opprtunities', function (Blueprint $table) {
-        $table->dropForeign(['factory_id']);
-        $table->dropColumn('factory_id');
-
-        $table->dropForeign(['user_id']);
-        $table->dropColumn('user_id');
-    });
-        
     }
 };

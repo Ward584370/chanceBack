@@ -63,18 +63,22 @@ private function getFinalOwnership($opprtunty_id)
     // إزالة من يملك 0 أو أقل فقط كحماية إضافية
     return array_filter($ownership, fn($amount) => $amount > 0);
 }
-public function distributeReturn(Request $request, $opprtunty_id)
+public function distributeReturn(Request $request, $opprtunty_id, $owner = null)
 {
     $request->validate([
         'amount' => 'required|numeric|min:1',
     ]);
 
     $opportunity = investment_opprtunities::with('factory')->findOrFail($opprtunty_id);
-    $owner = Auth::user();
 
-    // التأكد أن المستخدم هو مالك المصنع
-    if ($opportunity->factory->user_id !== $owner->id) {
-        return response()->json(['message' => 'Unauthorized'], 403);
+    // إذا لم يتم تمرير المالك من الخارج، استخدم Auth
+    if (!$owner) {
+        $owner = Auth::user();
+
+        // التأكد أن المستخدم هو مالك المصنع
+        if ($opportunity->factory->user_id !== $owner->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
     }
 
     $returnAmount = $request->amount;

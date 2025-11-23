@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-       // التسجيل
+    // التسجيل
     public function register(Request $request)
     {
         $request->validate([
@@ -37,6 +38,11 @@ class AuthController extends Controller
     // تسجيل الدخول
     public function login(Request $request)
     {
+        if (Auth::check() && Auth::user()->is_suspended) {
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Your account is temporarily suspended due to insufficient funds.');
+        }
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',

@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::table('factories', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            // $table->foreign('opprtuntiy_image_id')->references('id')->on('opprtunity_images')->onDelete('cascade');
+            //  $table->foreign('opprtuntiy_image_id')->references('id')->on('opprtunity_images')->onDelete('cascade');
             
         });
     
-        Schema::table('investment_opprtunities', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('factory_id')->references('id')->on('factories')->onDelete('cascade');
-        });
+        // Schema::table('investment_opprtunities', function (Blueprint $table) {
+        //     $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        //     $table->foreign('factory_id')->references('id')->on('factories')->onDelete('cascade');
+        // });
     
         Schema::table('investments', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -41,9 +41,9 @@ return new class extends Migration
             $table->foreign('opprtunty_id')->references('id')->on('investment_opprtunities')->onDelete('cascade');
         });
 
-        Schema::table('opprtunity_images', function (Blueprint $table) {
-            $table->foreign('factory_id')->references('id')->on('factories')->onDelete('cascade');
-        });
+        // Schema::table('opprtunity_images', function (Blueprint $table) {
+        //     $table->foreign('factory_id')->references('id')->on('factories')->onDelete('cascade');
+        // });
          Schema::table('transaction', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('opprtunty_id')->references('id')->on('investment_opprtunities')->onDelete('cascade');
@@ -81,10 +81,10 @@ return new class extends Migration
             $table->dropForeign(['opprtunty_id']);
         });
 
-        Schema::table('investment_opprtunities', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['factory_id']);
-        });
+        // Schema::table('investment_opprtunities', function (Blueprint $table) {
+        //     $table->dropForeign(['user_id']);
+        //     $table->dropForeign(['factory_id']);
+        // });
             Schema::table('transaction', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['opprtunty_id']);
